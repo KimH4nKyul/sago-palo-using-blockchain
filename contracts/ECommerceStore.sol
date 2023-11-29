@@ -98,4 +98,14 @@ contract ECommerceStore {
             product.buyer
         );
     }
+
+    function buy(uint _productId) public payable {
+        Product memory product = products[productOwner[_productId]][_productId];
+        require(product.buyer == address(0), "Sold out");
+        require(product.price <= msg.value, "Not enough price");
+
+        product.buyer = msg.sender;
+
+        products[productOwner[_productId]][_productId] = product;
+    }
 }
