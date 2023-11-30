@@ -107,5 +107,9 @@ contract ECommerceStore {
         product.buyer = msg.sender;
 
         products[productOwner[_productId]][_productId] = product;
+
+        // 판매자가 이더를 받아놓고 상품을 보내지 않을 경우를 대비해 여기서 바로 이더를 판매자에게 주지 않음
+        // 또한, 상품을 못 받았다고 할 경우에 대한 판매자 보호정책과 상품을 발송했는데 상품이 손상되어 환불이나 대체 상품을 보애야 하는 이슈를 해결해야 함
+        // 이에 '에스크로'를 도입해야 함
     }
 }
