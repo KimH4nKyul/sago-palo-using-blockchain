@@ -128,8 +128,14 @@ const App = {
       "<img src='http://localhost:8080/ipfs/" + p[3] + "' />"
     )
     $('#product-price').html(displayPrice(p[6]))
-    $('#buy-now-price').val(displayPrice(p[6]))
     $('#product-id').val(p[0])
+    $('#buy-now-price').val(displayPrice(p[6]))
+
+    // ipfs cat으로 상품 설명을 삽임
+    ipfs.cat(p[4]).then(function (file) {
+      var content = file.toString()
+      $('#product-desc').append('<div>' + content + '</div>')
+    })
   },
 
   saveProduct: async function (product) {
