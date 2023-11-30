@@ -2,6 +2,10 @@ import Web3 from 'web3'
 import './app.css'
 import ecommerceStoreArtifact from '../../build/contracts/ECommerceStore.json'
 
+var ipfsClient = require('ipfs-http-client')
+var ipfs = ipfsClient('127.0.0.1', '5001', { protocol: 'http' })
+var reader
+
 const App = {
   web3: null,
   account: null,
@@ -23,7 +27,18 @@ const App = {
       const accounts = await web3.eth.getAccounts()
       this.account = accounts[0]
 
-      this.renderStore()
+      if ($('#product-details').length > 0) {
+        let productId = new URLSearchParams(window.location.search).get('id')
+        this.renderProductDetails(productId)
+      } else {
+        this.renderStore()
+      }
+
+      $('#product-image').change(function (event) {
+        const file = event.target.files[0]
+        reader = new window.FileReader()
+        reader.readAsArrayBuffer(file)
+      })
 
       $('#add-item-to-store').submit(function (event) {
         const req = $('#add-item-to-store').serialize()
@@ -40,6 +55,18 @@ const App = {
         App.saveProduct(decodedParams)
         event.preventDefault()
       })
+
+      $('#buy-now').submit(function (event) {
+        $('#msg').hide()
+        var sendAmount = $('#buy-now-price').val()
+        var productId = $('#product-id').val()
+        App.instance.methods
+          .buy(productId)
+          .send({ value: sendAmount, from: App.account })
+        $('#msg').show()
+        $('#msg').html('You have successfully purchased the product!')
+        event.preventDefault()
+      })
     } catch (error) {
       console.error('Could not connect to contract or chain.')
     }
@@ -48,15 +75,26 @@ const App = {
   saveProduct: async function (product) {
     const { addProductToStore } = this.instance.methods
 
-    addProductToStore(
-      product['product-name'],
-      product['product-category'],
-      'imageLink',
-      'descLink',
-      Date.parse(product['product-start-time']) / 1000,
-      this.web3.utils.toWei(product['product-price'], 'ether'),
-      product['product-condition']
-    ).send({ from: this.account, gas: 4700000 })
+    var imageId
+    var descId
+    this.saveImageOnIpfs(reader).then(function (id) {
+      imageId = id
+      this.saveTextBlobOnIpfs(product['product-description']).then(function (
+        id
+      ) {
+        descId = id
+
+        addProductToStore(
+          product['product-name'],
+          product['product-category'],
+          imageId,
+          descId,
+          Date.parse(product['product-start-time']) / 1000,
+          this.web3.utils.toWei(product['product-price'], 'ether'),
+          product['product-condition']
+        ).send({ from: this.account, gas: 4700000 })
+      })
+    })
   },
 
   renderStore: async function () {
@@ -72,6 +110,7 @@ const App = {
     var f = await getProduct(index).call()
     let node = $('<div/>')
     node.addClass('col-sm-3 text-center col-margin-bottom-1 product')
+    node.append("<img src='http://localhost:8080/ipfs/" + f[3] + "' />")
     node.append("<div class='title'>" + f[1] + '</div>')
     node.append('<div> Price: ' + displayPrice(f[6]) + '</div>')
     if (f[8] === '0x0000000000000000000000000000000000000000') {
@@ -79,6 +118,69 @@ const App = {
     } else {
       $('#product-purchased').append(node)
     }
+  },
+
+  renderProductDetails: async function (productId) {
+    const { getProduct } = this.instance.methods
+    var p = await getProduct(productId).call()
+    $('#product-name').html(p[1])
+    $('#product-image').html(
+      "<img src='http://localhost:8080/ipfs/" + p[3] + "' />"
+    )
+    $('#product-price').html(displayPrice(p[6]))
+    $('#buy-now-price').val(displayPrice(p[6]))
+    $('#product-id').val(p[0])
+  },
+
+  saveProduct: async function (product) {
+    // 1. Upload image to IPFS and get the hash
+    // 2. Add description to IPFS and get the hash
+    // 3. Pass the 2 hashes to addProductToStore
+
+    const { addProductToStore } = this.instance.methods
+    var imageId = await this.saveImageOnIpfs(reader)
+    var descId = await this.saveTextBlobOnIpfs(product['product-description'])
+    addProductToStore(
+      product['product-name'],
+      product['product-category'],
+      imageId,
+      descId,
+      Date.parse(product['product-start-time']) / 1000,
+      this.web3.utils.toWei(product['product-price'], 'ether'),
+      product['product-condition']
+    ).send({ from: this.account, gas: 4700000 })
+  },
+
+  saveImageOnIpfs: async function (reader) {
+    return new Promise(function (resolve, reject) {
+      const buffer = Buffer.from(reader.result)
+      ipfs
+        .add(buffer)
+        .then((response) => {
+          console.log(response)
+          resolve(response[0].hash)
+        })
+        .catch((err) => {
+          console.error(err)
+          reject(err)
+        })
+    })
+  },
+
+  saveTextBlobOnIpfs: async function (blob) {
+    return new Promise(function (resolve, reject) {
+      const descBuffer = Buffer.from(blob, 'utf-8')
+      ipfs
+        .add(descBuffer)
+        .then((response) => {
+          console.log(response)
+          resolve(response[0].hash)
+        })
+        .catch((err) => {
+          console.error(err)
+          reject(err)
+        })
+    })
   },
 }
 
