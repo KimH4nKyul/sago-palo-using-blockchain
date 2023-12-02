@@ -1,9 +1,16 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.10;
 
+import "./Escrow.sol";
+
 contract ECommerceStore {
     mapping(address => mapping(uint => Product)) products;
-    mapping(uint => address) productOwner;
+    mapping(uint => address payable) productOwner;
+
+    address public arbiter;
+
+    // Escrow를 가져올 매핑
+    mapping(uint => address) productEscrow;
 
     // TODO: enum은 기본적으로 정수형으로 처리됨. 불필요한 형 변환으로 가스 비용이 추가 되므로, 최적화 필요
     enum ProductCondition {
@@ -25,8 +32,9 @@ contract ECommerceStore {
         address buyer;
     }
 
-    constructor() {
+    constructor(address _arbiter) {
         productId = 0;
+        arbiter = _arbiter;
     }
 
     function add(
@@ -63,7 +71,7 @@ contract ECommerceStore {
         );
 
         products[msg.sender][productId] = product;
-        productOwner[productId] = msg.sender;
+        productOwner[productId] = payable(msg.sender);
     }
 
     function get(
@@ -111,5 +119,19 @@ contract ECommerceStore {
         // 판매자가 이더를 받아놓고 상품을 보내지 않을 경우를 대비해 여기서 바로 이더를 판매자에게 주지 않음
         // 또한, 상품을 못 받았다고 할 경우에 대한 판매자 보호정책과 상품을 발송했는데 상품이 손상되어 환불이나 대체 상품을 보애야 하는 이슈를 해결해야 함
         // 이에 '에스크로'를 도입해야 함
+        address payable seller = productOwner[_productId];
+        Escrow escrow = (new Escrow){value: msg.value}(
+            _productId,
+            payable(msg.sender),
+            seller,
+            arbiter
+        );
+        productEscrow[_productId] = address(escrow);
+    }
+
+    function info(
+        uint _productId
+    ) public view returns (address, address, address, bool, uint, uint) {
+        return Escrow(productEscrow[_productId]).info();
     }
 }
