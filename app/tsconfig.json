@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "lib": ["es5", "es6", "ES2020.BigInt", "DOM"],
-    "types": ["jest"],
+    // "types": ["jest"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",
@@ -17,6 +17,6 @@
     "skipLibCheck": true,
     "noEmitOnError": true
   },
-  "include": ["src/**/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
