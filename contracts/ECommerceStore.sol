@@ -4,6 +4,18 @@ pragma solidity ^0.8.10;
 import "./Escrow.sol";
 
 contract ECommerceStore {
+    // 트랜잭션 로그를 위한 이벤트 등록
+    event NewProduct(
+        uint _productId,
+        string _name,
+        string _category,
+        string _imgLink,
+        string _descLink,
+        uint _startTime,
+        uint _price,
+        ProductCondition _condition
+    );
+
     mapping(address => mapping(uint => Product)) products;
     mapping(uint => address payable) productOwner;
 
@@ -72,6 +84,17 @@ contract ECommerceStore {
 
         products[msg.sender][productId] = product;
         productOwner[productId] = payable(msg.sender);
+
+        emit NewProduct(
+            productId,
+            _name,
+            _category,
+            _imageLink,
+            _descLink,
+            _startTime,
+            _price,
+            _condition
+        );
     }
 
     function get(
