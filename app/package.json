@@ -5,13 +5,15 @@
   "private": true,
   "scripts": {
     "test": "",
-    "build": "rm -rf ./build && tsc",
-    "dev": "",
-    "start": ""
+    "build": "tsc",
+    "build:clean": "rm -rf build && tsc",
+    "dev": "ts-node-dev src/server.ts",
+    "start": "node build/server.js"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/mongoose": "^5.11.97",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.2"
   },
   "dependencies": {
