@@ -1,13 +1,9 @@
-import express, { Express } from 'express'
-import { router } from './route/router'
+import http from 'http'
+import { app } from './app'
 
-const app: Express = express()
-
-app.use(express.json())
-
-app.use(router)
+const server = http.createServer(app)
 
 const PORT = process.env.NODE_PORT || 3000
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`)
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`)
 })
