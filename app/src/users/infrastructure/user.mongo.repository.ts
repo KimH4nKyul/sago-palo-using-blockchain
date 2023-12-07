@@ -1,5 +1,5 @@
 import { User } from '../domain/user'
-import { UserRepository } from '../service/user.repository'
+import { UserRepository } from '../interface/user.repository'
 import { UserDocument, UserModel } from './model/user.model'
 
 export class UserMongoRepository implements UserRepository {
@@ -8,7 +8,7 @@ export class UserMongoRepository implements UserRepository {
     return this.toDomain(saved)
   }
 
-  toDomain(userDoc: UserDocument): User {
-    return User.from(userDoc.id, userDoc.password, userDoc.seq)
+  private toDomain(userDoc: UserDocument): User {
+    return User.from(userDoc.id, userDoc.password, userDoc._id)
   }
 }

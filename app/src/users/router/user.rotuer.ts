@@ -1,18 +1,19 @@
 import { Router, Request, Response } from 'express'
 import { CreateUserCmd } from './command/create.user.cmd'
-import { create } from '../service/user.service'
-import { UserMongoRepository } from '../infrastructure/user.mongo.repository'
 import { CreateUserResult } from './result/create.user.result'
+import { userCreateService } from '../../shared/container'
 
 const userRouter = Router()
-const userRepository = new UserMongoRepository()
 
-userRouter.post('/api/users', async (req: Request, res: Response) => {
-  const cmd = CreateUserCmd.from(req.body)
-  const result = CreateUserResult.from(await create({ userRepository }, cmd))
-  res.status(201).json(result)
+userRouter.post('/', async (req: Request, res: Response) => {
+  try {
+    const cmd = CreateUserCmd.from(req.body)
+    const user = await userCreateService.create(cmd.id, cmd.password)
+    const result = CreateUserResult.from(user)
+    res.status(201).json(result)
+  } catch (e) {
+    console.error(e)
+  }
 })
-userRouter.get('/api/users/me')
-userRouter.get('/api/users/:id')
 
 export { userRouter }

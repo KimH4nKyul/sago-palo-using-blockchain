@@ -8,7 +8,6 @@ interface UserAttribute {
 export interface UserDocument extends Document {
   id: string
   password: string
-  seq: number
 }
 
 interface UserModel extends Model<UserDocument> {
