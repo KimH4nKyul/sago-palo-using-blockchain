@@ -3,6 +3,15 @@ import { UserRepository } from '../interface/user.repository'
 import { UserDocument, UserModel } from './model/user.model'
 
 export class UserMongoRepository implements UserRepository {
+  async findById(id: string): Promise<User> {
+    const founded = await UserModel.findById(id)
+    return this.toDomain(founded!)
+  }
+
+  async findAll(): Promise<User[]> {
+    throw new Error('Method not implemented.')
+  }
+
   async create(id: string, password: string): Promise<User> {
     const saved = await UserModel.build({ id, password }).save()
     return this.toDomain(saved)

@@ -1,7 +1,8 @@
 import { Router, Request, Response } from 'express'
 import { CreateUserCmd } from './command/create.user.cmd'
 import { CreateUserResult } from './result/create.user.result'
-import { userCreateService } from '../../shared/container'
+import { userCreateService, userReadService } from '../../shared/container'
+import { ReadUserResult } from './result/read.user.result'
 
 const userRouter = Router()
 
@@ -13,6 +14,17 @@ userRouter.post('/', async (req: Request, res: Response) => {
     res.status(201).json(result)
   } catch (e) {
     console.error(e)
+  }
+})
+
+userRouter.get('/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+    const user = await userReadService.findById(id)
+    const result = ReadUserResult.from(user)
+    res.status(200).json(result)
+  } catch {
+    console.error
   }
 })
 
