@@ -4,4 +4,5 @@ build/
 coverage/
 
 package-lock.json
-sample*
+sample*  
+.env*
