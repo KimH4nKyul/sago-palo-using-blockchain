@@ -5,6 +5,7 @@ import { UserDocument, UserModel } from './model/user.model'
 export class UserMongoRepository implements UserRepository {
   async findById(id: string): Promise<User> {
     const founded = await UserModel.findById(id)
+    // TODO: Promise<User | null> 로 타입 변경
     return this.toDomain(founded!)
   }
 
