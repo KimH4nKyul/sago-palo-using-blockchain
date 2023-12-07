@@ -9,8 +9,12 @@ server.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`)
 
   try {
+    if (!process.env.MONGODB_URL) {
+      throw new Error('MONGODB_URL Not found')
+    }
+
     mongoDbEventHandler()
-    await initMongoDb('mongodb://localhost:27017/sagopalo')
+    await initMongoDb(process.env.MONGODB_URL)
   } catch {
     process.exit(-1)
   }
