@@ -28,4 +28,19 @@ userRouter.get('/:id', async (req: Request, res: Response) => {
   }
 })
 
+userRouter.get('/', async (req: Request, res: Response) => {
+  try {
+    const users = await userReadService.findAll()
+    const result = users.map((user) => {
+      return {
+        id: user.id,
+        objectId: user.objectId,
+      }
+    })
+    res.status(200).json(result)
+  } catch {
+    console.error
+  }
+})
+
 export { userRouter }

@@ -9,7 +9,10 @@ export class UserMongoRepository implements UserRepository {
   }
 
   async findAll(): Promise<User[]> {
-    throw new Error('Method not implemented.')
+    const founded = (await UserModel.find().sort({ _id: -1 })).map((it) => {
+      return this.toDomain(it)
+    })
+    return founded
   }
 
   async create(id: string, password: string): Promise<User> {
