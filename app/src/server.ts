@@ -1,9 +1,12 @@
 import http from 'http'
-import { app } from './app'
-import { initMongoDb, mongoDbEventHandler } from './shared/startup'
+import { application } from './app'
+import {
+  initMongoDb,
+  mongoDbEventHandler,
+} from './shared/infrastructure/startup'
 
 const run = async () => {
-  const server = http.createServer(app)
+  const server = http.createServer(application())
 
   if (!process.env.MONGODB_URL) {
     throw new Error('MONGODB_URL Not found')

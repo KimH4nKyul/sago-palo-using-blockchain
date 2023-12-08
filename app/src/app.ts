@@ -7,26 +7,30 @@ import morgan from 'morgan'
 import { userRouter } from './users/router/user.rotuer'
 import { PRODUCT_API, USER_API } from './shared/constant/api'
 
-const app: Express = express()
+const application = (): Express => {
+  const app: Express = express()
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(morgan('combined'))
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
+  app.use(morgan('combined'))
 
-app.use(USER_API, userRouter)
-// app.use(PRODUCT_API, something)
+  app.use(USER_API, userRouter)
+  // app.use(PRODUCT_API, something)
 
-app.all('*', (req: Request, res: Response) => {
-  throw new Error('Not Found')
-})
-
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-  if (error instanceof Error) {
-    return
-  }
-  return res.status(500).send({
-    message: 'Internal Server Error',
+  app.all('*', (req: Request, res: Response) => {
+    throw new Error('Not Found')
   })
-})
 
-export { app }
+  app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    if (error instanceof Error) {
+      return
+    }
+    return res.status(500).send({
+      message: 'Internal Server Error',
+    })
+  })
+
+  return app
+}
+
+export { application }
