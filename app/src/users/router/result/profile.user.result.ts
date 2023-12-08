@@ -8,7 +8,7 @@ export class ProfileUserResult {
 
   static from(user: Partial<User>) {
     if (!user) throw new Error('user not founded')
-    if (!user.id || !user.objectId) throw new Error('missing properties')
-    return new ProfileUserResult(user.id, user.objectId)
+    if (!user.id || !user.dbId) throw new Error('missing properties')
+    return new ProfileUserResult(user.id, user.dbId)
   }
 }

@@ -2,11 +2,11 @@ export class User {
   constructor(
     private readonly _id: string,
     private readonly _password: string,
-    private readonly _objectId: string = ''
+    private readonly _dbId: string = ''
   ) {}
 
-  static from(_id: string, _password: string, _objectId: string) {
-    return new User(_id, _password, _objectId)
+  static from(_id: string, _password: string, _dbId: string) {
+    return new User(_id, _password, _dbId)
   }
 
   static create(_id: string, _password: string): User {
@@ -21,7 +21,7 @@ export class User {
     return this._id
   }
 
-  get objectId(): string {
-    return this._objectId
+  get dbId(): string {
+    return this._dbId
   }
 }

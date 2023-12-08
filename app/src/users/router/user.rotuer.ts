@@ -44,7 +44,7 @@ userRouter.get('/', async (req: Request, res: Response) => {
     const result = users.map((user) => {
       return {
         id: user.id,
-        objectId: user.objectId,
+        objectId: user.dbId,
       }
     })
     res.status(200).json(result)
