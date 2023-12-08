@@ -1,10 +1,20 @@
 import { Router, Request, Response } from 'express'
 import { CreateUserCmd } from './command/create.user.cmd'
 import { CreateUserResult } from './result/create.user.result'
-import { userCreateService, userReadService } from '../../shared/container'
-import { ReadUserResult } from './result/read.user.result'
+import {
+  userCreateService,
+  userReadService,
+} from '../../shared/infrastructure/container'
+import { ProfileUserResult } from './result/profile.user.result'
+import { ProfileUserCmd } from './command/profile.user.cmd'
 
 const userRouter = Router()
+
+// TODO: login with passport-jwt?
+userRouter.post('/login', async () => {})
+
+// TODO: logout with passport-jwt?
+userRouter.post('/logout', async () => {})
 
 userRouter.post('/', async (req: Request, res: Response) => {
   try {
@@ -17,11 +27,11 @@ userRouter.post('/', async (req: Request, res: Response) => {
   }
 })
 
-userRouter.get('/:id', async (req: Request, res: Response) => {
+userRouter.get('/me', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params
-    const user = await userReadService.findById(id)
-    const result = ReadUserResult.from(user)
+    const cmd = ProfileUserCmd.from(req.body)
+    const user = await userReadService.findById(cmd.id)
+    const result = ProfileUserResult.from(user)
     res.status(200).json(result)
   } catch {
     console.error
