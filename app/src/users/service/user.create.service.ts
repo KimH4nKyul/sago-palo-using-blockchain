@@ -6,6 +6,7 @@ export class UserCreateService implements UserCreateUsecase {
   constructor(private readonly _userRepository: UserRepository) {}
 
   async create(id: string, password: string): Promise<User> {
-    return await this._userRepository.create(id, password)
+    const user = User.create(id, password)
+    return await this._userRepository.create(user)
   }
 }

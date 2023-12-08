@@ -16,8 +16,11 @@ export class UserMongoRepository implements UserRepository {
     return founded
   }
 
-  async create(id: string, password: string): Promise<User> {
-    const saved = await UserModel.build({ id, password }).save()
+  async create(user: User): Promise<User> {
+    const saved = await UserModel.build({
+      id: user.id,
+      password: user.password,
+    }).save()
     return this.toDomain(saved)
   }
 
