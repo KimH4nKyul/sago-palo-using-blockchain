@@ -7,19 +7,34 @@ import {
 } from '../../shared/infrastructure/container'
 import { ProfileUserResult } from './result/profile.user.result'
 import { ProfileUserCmd } from './command/profile.user.cmd'
+import { usersLogger } from '../../util/logger'
 
 const userRouter = Router()
 
 // TODO: login with passport-jwt?
-userRouter.post('/login', async () => {})
+userRouter.post(
+  '/login',
+  async () => {
+    // TODO: auth middleware
+  },
+  async (req: Request, res: Response) => {}
+)
 
 // TODO: logout with passport-jwt?
-userRouter.post('/logout', async () => {})
+userRouter.post(
+  '/logout',
+  async () => {
+    // TODO: auth middleware
+  },
+  async (req: Request, res: Response) => {}
+)
 
 userRouter.post('/', async (req: Request, res: Response) => {
   try {
     const cmd = CreateUserCmd.from(req.body)
     const user = await userCreateService.create(cmd.id, cmd.password)
+    usersLogger.info(`create a user - ${JSON.stringify(user)}`)
+
     const result = CreateUserResult.from(user)
     res.status(201).json(result)
   } catch (e) {
