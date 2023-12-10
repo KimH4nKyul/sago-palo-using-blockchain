@@ -4,6 +4,7 @@ import {
   initMongoDb,
   mongoDbEventHandler,
 } from './shared/infrastructure/startup'
+import { logger } from './shared/logger/logger'
 
 const run = async () => {
   try {
@@ -18,7 +19,7 @@ const run = async () => {
 
     const PORT = process.env.NODE_PORT || 3000
     server.listen(PORT, async () => {
-      console.log(`Server is running on port ${PORT}`)
+      logger.info(`Server is running on port ${PORT}`)
     })
   } catch {
     console.error

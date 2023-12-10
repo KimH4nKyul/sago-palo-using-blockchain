@@ -1,28 +1,25 @@
 import mongoose from 'mongoose'
+import { logger } from '../logger/logger'
 
 export const initMongoDb = async (host: string) => {
   try {
     await mongoose.connect(host)
-    console.log(`Initialized MongoDb: ${host}`)
+    logger.info(`Initialized MongoDb: ${host}`)
   } catch (e) {
     console.error(e)
   }
 }
 
 export const mongoDbEventHandler = () => {
-  mongoose.connection.on('connected', () => {
-    console.log('Connected MongoDb')
+  mongoose.connection.on('connected' || 'reconnected', () => {
+    logger.info('Connected MongoDb')
   })
 
   mongoose.connection.on('disconnected', () => {
-    console.log('Disconnected MongoDb')
-  })
-
-  mongoose.connection.on('reconnected', () => {
-    console.log('Reconnected MongoDb')
+    logger.warn('Disconnected MongoDb')
   })
 
   mongoose.connection.on('reconnectFailed', () => {
-    console.log('Failed MongoDb')
+    console.error('Failed MongoDb')
   })
 }
