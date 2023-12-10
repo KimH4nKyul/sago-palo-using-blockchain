@@ -1,6 +1,6 @@
-import { User } from '../domain/user'
-import { UserCreateUsecase } from '../interface/user.create.usecase'
-import { UserRepository } from '../interface/user.repository'
+import { User } from '../../core/domain/users/user'
+import { UserCreateUsecase } from '../../core/domain/users/port/user.create.usecase'
+import { UserRepository } from '../../core/domain/users/port/user.repository'
 
 export class UserCreateService implements UserCreateUsecase {
   constructor(private readonly _userRepository: UserRepository) {}

@@ -1,4 +1,4 @@
-import { UserMongoRepository } from '../../users/infrastructure/user.mongo.repository'
+import { UserMongoRepository } from '../../users/infrastructure/repository/user.mongo.repository'
 import { UserCreateService } from '../../users/service/user.create.service'
 import { UserReadService } from '../../users/service/user.read.service'
 

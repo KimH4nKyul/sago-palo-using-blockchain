@@ -1,4 +1,4 @@
-import { User } from '../../domain/user'
+import { User } from '../../../core/domain/users/user'
 
 export class CreateUserResult {
   constructor(

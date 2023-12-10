@@ -4,10 +4,10 @@ import { CreateUserResult } from './result/create.user.result'
 import {
   userCreateService,
   userReadService,
-} from '../../shared/infrastructure/container'
+} from '../../core/infrastructure/container'
 import { ProfileUserResult } from './result/profile.user.result'
 import { ProfileUserCmd } from './command/profile.user.cmd'
-import { usersLogger } from '../../shared/logger/logger'
+import { usersLogger } from '../../core/logger/logger'
 
 const userRouter = Router()
 
