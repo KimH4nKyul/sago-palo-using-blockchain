@@ -21,8 +21,8 @@ const run = async () => {
     server.listen(PORT, async () => {
       logger.info(`Server is running on port ${PORT}`)
     })
-  } catch {
-    console.error
+  } catch (error) {
+    logger.error(error)
   }
 }
 

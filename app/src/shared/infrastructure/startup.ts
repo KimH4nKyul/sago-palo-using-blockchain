@@ -6,7 +6,7 @@ export const initMongoDb = async (host: string) => {
     await mongoose.connect(host)
     logger.info(`Initialized MongoDb: ${host}`)
   } catch (e) {
-    console.error(e)
+    logger.error(e)
   }
 }
 
@@ -20,6 +20,6 @@ export const mongoDbEventHandler = () => {
   })
 
   mongoose.connection.on('reconnectFailed', () => {
-    console.error('Failed MongoDb')
+    logger.error('Failed MongoDb')
   })
 }

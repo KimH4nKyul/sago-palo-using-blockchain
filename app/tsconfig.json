@@ -3,6 +3,7 @@
     "target": "es6",
     "lib": ["es5", "es6", "ES2020.BigInt", "DOM"],
     "typeRoots": ["src/types", "node_modules/@types"],
+    "types": ["jest"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",

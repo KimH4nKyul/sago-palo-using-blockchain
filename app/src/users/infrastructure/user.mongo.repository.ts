@@ -6,7 +6,7 @@ export class UserMongoRepository implements UserRepository {
   async findById(dbId: string): Promise<User> {
     const founded = await UserModel.findById(dbId)
     // TODO: Promise<User | null> 로 타입 변경
-    return User.from(founded?.userId, founded!.password, founded?._id)
+    return User.from(founded!.userId, founded!.password, founded!._id)
   }
 
   async findAll(): Promise<User[]> {

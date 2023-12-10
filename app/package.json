@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "ts-jest --coverage",
     "build": "tsc",
     "build:clean": "rm -rf build && tsc",
     "start:dev": "NODE_ENV=dev ts-node-dev src/server.ts",
@@ -29,7 +29,6 @@
     "mongoose": "^8.0.2",
     "morgan": "^1.10.0",
     "path": "^0.12.7",
-    "rotating-file-stream": "^3.1.1",
     "uuid": "^9.0.1",
     "web3": "^1.10.0",
     "winston": "^3.11.0",
