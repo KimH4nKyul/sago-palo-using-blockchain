@@ -9,8 +9,8 @@ export class CreateUserResult {
 
   static from(user: Partial<User>) {
     if (!user) throw new Error('user not created')
-    if (!user.id || !user.password || !user.dbId)
+    if (!user.userId || !user.password || !user.dbId)
       throw new Error('missing properties')
-    return new CreateUserResult(user.id, user.password, user.dbId)
+    return new CreateUserResult(user.userId, user.password, user.dbId)
   }
 }

@@ -1,12 +1,12 @@
 export class ProfileUserCmd {
-  constructor(private readonly _id: string) {}
+  constructor(private readonly _dbId: string) {}
 
   static from(body: Partial<ProfileUserCmd>): ProfileUserCmd {
-    if (!body.id) throw new Error('missing properties')
-    return new ProfileUserCmd(body.id)
+    if (!body.dbId) throw new Error('missing id')
+    return new ProfileUserCmd(body.dbId)
   }
 
-  get id(): string {
-    return this._id
+  get dbId(): string {
+    return this._dbId
   }
 }

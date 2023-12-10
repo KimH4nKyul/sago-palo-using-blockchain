@@ -14,17 +14,17 @@ export class User {
   private _userRole: UserRole = UserRole.GENERAL
 
   constructor(
-    private readonly _id: string,
+    private readonly _userId: string,
     private readonly _password: string,
     private readonly _dbId: string = ''
   ) {}
 
-  static from(_id: string, _password: string, _dbId: string) {
-    return new User(_id, _password, _dbId)
+  static from(_userId: string, _password: string, _dbId: string) {
+    return new User(_userId, _password, _dbId)
   }
 
-  static create(_id: string, _password: string): User {
-    return new User(_id, _password)
+  static create(_userId: string, _password: string): User {
+    return new User(_userId, _password)
   }
 
   login() {
@@ -51,8 +51,8 @@ export class User {
     return this._password
   }
 
-  get id(): string {
-    return this._id
+  get userId(): string {
+    return this._userId
   }
 
   get dbId(): string {

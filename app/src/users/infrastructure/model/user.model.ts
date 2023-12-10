@@ -1,22 +1,22 @@
 import mongoose, { Document, Model, Schema } from 'mongoose'
 
-interface UserAttribute {
-  id: string
+interface UserAttributes {
+  userId: string
   password: string
 }
 
-export interface UserDocument extends Document {
-  id: string
+interface UserDocument extends Document {
+  userId: string
   password: string
 }
 
 interface UserModel extends Model<UserDocument> {
-  build(attribute: UserAttribute): UserDocument
+  build(attributes: UserAttributes): UserDocument
 }
 
-const schema = new Schema<UserDocument>(
+const userSchema = new Schema(
   {
-    id: {
+    userId: {
       type: String,
       required: true,
     },
@@ -26,8 +26,7 @@ const schema = new Schema<UserDocument>(
     },
   },
   {
-    collection: 'User',
-    autoCreate: false,
+    collection: 'Users',
     timestamps: {
       createdAt: 'createAt',
       updatedAt: 'modifiedAt',
@@ -35,10 +34,10 @@ const schema = new Schema<UserDocument>(
   }
 )
 
-schema.statics.build = function (userAttr: UserAttribute) {
-  return new this(userAttr)
+userSchema.statics.build = (attributes: UserAttributes) => {
+  return new User(attributes)
 }
 
-const model = mongoose.model<UserDocument, UserModel>('user', schema)
+const User = mongoose.model<UserDocument, UserModel>('User', userSchema)
 
-export { model as UserModel }
+export { User as UserModel }

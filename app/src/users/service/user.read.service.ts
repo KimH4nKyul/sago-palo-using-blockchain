@@ -5,8 +5,8 @@ import { UserRepository } from '../interface/user.repository'
 export class UserReadService implements UserReadUsecase {
   constructor(private readonly _userRepository: UserRepository) {}
 
-  async findById(id: string): Promise<User> {
-    return await this._userRepository.findById(id)
+  async findById(dbId: string): Promise<User> {
+    return await this._userRepository.findById(dbId)
   }
 
   async findAll(): Promise<User[]> {

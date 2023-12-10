@@ -32,7 +32,7 @@ userRouter.post(
 userRouter.post('/', async (req: Request, res: Response) => {
   try {
     const cmd = CreateUserCmd.from(req.body)
-    const user = await userCreateService.create(cmd.id, cmd.password)
+    const user = await userCreateService.create(cmd.userId, cmd.password)
     usersLogger.info(`create a user - ${JSON.stringify(user)}`)
 
     const result = CreateUserResult.from(user)
@@ -45,7 +45,7 @@ userRouter.post('/', async (req: Request, res: Response) => {
 userRouter.get('/me', async (req: Request, res: Response) => {
   try {
     const cmd = ProfileUserCmd.from(req.body)
-    const user = await userReadService.findById(cmd.id)
+    const user = await userReadService.findById(cmd.dbId)
     const result = ProfileUserResult.from(user)
     res.status(200).json(result)
   } catch {
@@ -58,7 +58,7 @@ userRouter.get('/', async (req: Request, res: Response) => {
     const users = await userReadService.findAll()
     const result = users.map((user) => {
       return {
-        id: user.id,
+        id: user.userId,
         objectId: user.dbId,
       }
     })
