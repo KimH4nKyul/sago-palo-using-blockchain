@@ -1,7 +1,6 @@
 import { createLogger, format, transports } from 'winston'
 import 'winston-daily-rotate-file'
-import { Console } from 'winston/lib/winston/transports'
-import { httpFileTransports, infoFileTransports } from './custom.transports'
+import { opts } from './logger.options'
 const { combine, timestamp, printf } = format
 
 const timestampFormat = timestamp({
@@ -19,11 +18,11 @@ const loggerFormat = combine(timestampFormat, printFormat)
 const logger = createLogger({
   level: 'http',
   format: loggerFormat,
-  transports: [httpFileTransports, infoFileTransports],
+  transports: [opts.httpFile, opts.infoFile],
 })
 
 if (process.env.NODE_ENV !== 'prod') {
-  logger.add(new Console({ level: 'info' }))
+  logger.add(opts.console)
 }
 
 const usersLogger = logger.child({ label: 'users' })
