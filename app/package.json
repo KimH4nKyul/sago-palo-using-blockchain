@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "build": "tsc",
     "build:clean": "rm -rf build && tsc",
     "dev": "NODE_ENV=dev ts-node-dev src/server.ts",
