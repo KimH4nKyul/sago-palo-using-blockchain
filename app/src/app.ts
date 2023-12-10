@@ -2,8 +2,8 @@ import { configDotenv } from 'dotenv'
 configDotenv({ path: `.env.${process.env.NODE_ENV}` })
 
 import express, { Express, Request, Response, NextFunction } from 'express'
-import { httpLogger } from './middleware/logger'
-import { assignId } from './middleware/assign.id'
+import { httpLogger } from './shared/logger/http.logger'
+import { httpIdAssigner } from './shared/logger/http.id.assigner'
 
 import { userRouter } from './users/router/user.rotuer'
 import { PRODUCT_API, USER_API } from './shared/constant/api'
@@ -11,7 +11,7 @@ import { PRODUCT_API, USER_API } from './shared/constant/api'
 const application = (): Express => {
   const app: Express = express()
 
-  app.use(assignId)
+  app.use(httpIdAssigner)
   app.use(httpLogger)
 
   app.use(express.json())

@@ -1,6 +1,6 @@
 import morgan, { token } from 'morgan'
 import { Request } from 'express'
-import { logger } from '../util/logger'
+import { logger } from './logger'
 
 const LOGGER_FORMAT = `{
   "id": ":id",

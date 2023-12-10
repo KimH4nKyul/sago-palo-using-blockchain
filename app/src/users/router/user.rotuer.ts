@@ -7,7 +7,7 @@ import {
 } from '../../shared/infrastructure/container'
 import { ProfileUserResult } from './result/profile.user.result'
 import { ProfileUserCmd } from './command/profile.user.cmd'
-import { usersLogger } from '../../util/logger'
+import { usersLogger } from '../../shared/logger/logger'
 
 const userRouter = Router()
 
