@@ -4,7 +4,7 @@ import { CreateUserResult } from './command/create.user.result'
 import {
   userCreateService,
   userReadService,
-} from '../../core/infrastructure/container'
+} from '../../core/infrastructure/dependency.container'
 import { ProfileUserResult } from './command/profile.user.result'
 import { ProfileUserCmd } from './command/profile.user.cmd'
 import { usersLogger } from '../../core/infrastructure/logger/logger'
