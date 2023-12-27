@@ -1,5 +1,8 @@
+import { configDotenv } from 'dotenv'
+configDotenv({ path: `.env.${process.env.NODE_ENV}` })
+
 import http from 'http'
-import { application } from './app'
+import { application } from './application'
 import { initMongoDb, mongoDbEventHandler } from './core/infrastructure/startup'
 import { logger } from './core/infrastructure/logger/logger'
 

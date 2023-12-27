@@ -1,6 +1,3 @@
-import { configDotenv } from 'dotenv'
-configDotenv({ path: `.env.${process.env.NODE_ENV}` })
-
 import express, { Express, Request, Response, NextFunction } from 'express'
 import { httpLogger } from './core/infrastructure/logger/http.logger'
 import { httpIdAssigner } from './core/infrastructure/logger/http.id.assigner'
