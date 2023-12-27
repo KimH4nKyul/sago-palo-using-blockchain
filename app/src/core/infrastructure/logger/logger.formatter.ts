@@ -9,7 +9,7 @@ const timestampFormat = timestamp({
 const printFormat = printf((info) => {
   const { timestamp, level, message } = info
   const label = info.label || 'app'
-  return `${timestamp} [${label}] ${level}: ${message}`
+  return `${timestamp} => [${label}] ${level} ▶ ${message}`
 })
 
 const loggerFormat = combine(timestampFormat, printFormat)
