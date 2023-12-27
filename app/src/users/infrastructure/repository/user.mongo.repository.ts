@@ -1,6 +1,6 @@
 import { User } from '../../../core/domain/users/user'
-import { UserRepository } from '../../../core/domain/users/port/user.repository'
-import { UserModel } from '../../../core/infrastructure/model/user.model'
+import { UserRepository } from '../../../core/domain/users/interfaces/repository/user.repository'
+import { UserModel } from '../../../core/infrastructure/models/user.model'
 
 export class UserMongoRepository implements UserRepository {
   async findById(dbId: string): Promise<User> {

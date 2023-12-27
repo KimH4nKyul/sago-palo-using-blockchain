@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["es5", "es6", "ES2020.BigInt", "DOM"],
-    "typeRoots": ["src/core/types", "node_modules/@types"],
+    "lib": ["es5", "es6", "DOM"],
+    "typeRoots": ["src/core/@types", "node_modules/@types"],
     "types": ["jest", "express-request-id"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

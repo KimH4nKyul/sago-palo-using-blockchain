@@ -1,13 +1,13 @@
 import { Router, Request, Response } from 'express'
 import { CreateUserCmd } from './command/create.user.cmd'
-import { CreateUserResult } from './result/create.user.result'
+import { CreateUserResult } from './command/create.user.result'
 import {
   userCreateService,
   userReadService,
 } from '../../core/infrastructure/container'
-import { ProfileUserResult } from './result/profile.user.result'
+import { ProfileUserResult } from './command/profile.user.result'
 import { ProfileUserCmd } from './command/profile.user.cmd'
-import { usersLogger } from '../../core/logger/logger'
+import { usersLogger } from '../../core/infrastructure/logger/logger'
 
 const userRouter = Router()
 

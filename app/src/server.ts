@@ -1,7 +1,7 @@
 import http from 'http'
 import { application } from './app'
 import { initMongoDb, mongoDbEventHandler } from './core/infrastructure/startup'
-import { logger } from './core/logger/logger'
+import { logger } from './core/infrastructure/logger/logger'
 
 const run = async () => {
   try {
